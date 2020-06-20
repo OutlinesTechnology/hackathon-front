@@ -33,7 +33,7 @@ export const StepTwo: React.FC<Props> = ({ eventsAndData }): JSX.Element => {
             setValue('')
             eventsAndData['userList'].set([
               ...eventsAndData['userList'].value,
-              { id: item.value, label: item.value },
+              { id: item.value, label: item.label },
             ])
           }}
           options={eventsAndData['options'].value}

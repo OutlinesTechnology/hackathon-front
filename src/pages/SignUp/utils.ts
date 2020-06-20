@@ -4,6 +4,8 @@ export const getSuggestions = (value: string, options: IPropsItem[]) =>
       option && typeof option.label === 'string' && option.label.includes(value.toLocaleLowerCase())
   )
 
+export const getIds = (array: IPropsItem[]) => array.map((item: IPropsItem) => item.id)
+
 export interface IPropsItem {
   label: string | number | null
   value: string | number | null
@@ -13,35 +15,71 @@ export interface IPropsItem {
 export const optionsData: IPropsItem[] = [
   {
     label: 'финансовая грамотность',
-    value: 'Финансовая грамотность',
+    value: 0,
     caption: 'Финансовая грамотность',
   },
   {
     label: 'платежные технологии',
-    value: 'Платежные технологии',
+    value: 1,
     caption: 'Платежные технологии',
   },
   { label: 'openbanking', value: 'OpenBanking', caption: 'OpenBanking' },
   {
     label: 'кибербезопасность',
-    value: 'Кибербезопасность',
+    value: 2,
     caption: 'Кибербезопасность',
   },
   { label: 'роботизация', value: 'Роботизация', caption: 'Роботизация' },
   {
     label: 'лучшие практики UI UX',
-    value: 'Лучшие практики UI UX',
+    value: 3,
     caption: 'Лучшие практики UI UX',
   },
   {
     label: 'digital marketing',
-    value: 'Digital marketing',
+    value: 4,
     caption: 'Digital marketing',
   },
   {
     label: 'блокчейн',
-    value: 'Блокчейн',
+    value: 5,
     caption: 'Блокчейн',
+  },
+]
+
+// Риск менеджмент
+//
+// Инвестиционный бизнес
+//
+// Кредиты и депозиты
+//
+// Бухгалтерия
+//
+// Финансовая отчетность
+//
+// Кибербезопасность
+//
+// Управление проектами
+//
+// Дизайн
+//
+// Проектирование архитектуры
+
+export const optionsDataExpertise = [
+  {
+    label: 'риск менеджмент',
+    value: 0,
+    caption: 'Риск менеджмент',
+  },
+  {
+    label: 'инвестиционный бизнес',
+    value: 1,
+    caption: 'Инвестиционный бизнес',
+  },
+  {
+    label: 'кредиты и депозиты',
+    value: 2,
+    caption: 'Кредиты и депозиты',
   },
 ]
 

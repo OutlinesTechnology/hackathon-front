@@ -13,6 +13,22 @@ export const StepOne: React.FC<Props> = ({ eventsAndData }): JSX.Element => {
     <>
       <Row>
         <Input
+          placeholder="Почта"
+          value={eventsAndData['email'].value}
+          type="text"
+          onChange={(e: React.ChangeEvent<any>, val: string) => eventsAndData['email'].set(val)}
+        />
+      </Row>
+      <Row>
+        <Input
+          placeholder="Пароль"
+          value={eventsAndData['password'].value}
+          type="text"
+          onChange={(e: React.ChangeEvent<any>, val: string) => eventsAndData['password'].set(val)}
+        />
+      </Row>
+      <Row>
+        <Input
           placeholder="Имя"
           value={eventsAndData['username'].value}
           type="text"

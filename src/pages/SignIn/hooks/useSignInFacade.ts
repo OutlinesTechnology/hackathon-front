@@ -1,12 +1,14 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { authUserAction } from 'core/User/duck'
+import { useHistory } from 'react-router-dom'
 
 export const useSignInFacade = () => {
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [disabled, setDisabled] = useState<boolean>(true)
 
+  const history = useHistory()
   const dispatch = useDispatch()
 
   const changeUsername = useCallback((value: string) => setUsername(value), [])
@@ -14,7 +16,7 @@ export const useSignInFacade = () => {
 
   const onClickAuthorization = useCallback(() => {
     if (username.length !== 0 || password.length !== 0) {
-      dispatch(authUserAction(username, password))
+      dispatch(authUserAction(username, password, () => history.push('/')))
     }
   }, [dispatch, username, password])
 

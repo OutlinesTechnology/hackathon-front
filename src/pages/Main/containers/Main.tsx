@@ -1,18 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { H3, H1, Paragraph, Button, InputSuggest } from '@holism/core'
 import { optionsData } from '../utils'
 import { getSuggestions, IPropsItem } from 'pages/SignUp/utils'
+import { useHistory } from 'react-router-dom'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { getPostsAction } from 'core/Posts/duck'
+import { getPosts } from 'core/Posts/selectors'
 
 export const Main: React.FC = (): JSX.Element => {
   const [stateOne, setStateOne] = useState(optionsData)
+  const history = useHistory()
+  const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(getPostsAction())
+  }, [dispatch])
+
+  const posts = useSelector(getPosts, shallowEqual)
   return (
     <>
       <HeaderBg>
         <Header>
-          <Username>Привет, Екатерина!</Username>
-          <Button view="rounded" dimension="small">
+          <Username>Привет!</Username>
+          <Button view="rounded" dimension="small" onClick={() => history.push('/create_project')}>
             Создать проект
           </Button>
         </Header>
@@ -50,76 +61,24 @@ export const Main: React.FC = (): JSX.Element => {
           <H1>Лента проектов</H1>
 
           <ListItem>
-            <Item>
-              <Flex>
-                <Rate>200</Rate>
-                <Texts>
-                  <Title>Чат-бот для поддержки клиентов</Title>
-                  <User>Алексей Колесников</User>
-                </Texts>
-                <Tags>
-                  <Tag>Клиентоцентричность</Tag>
-                  <Tag>Машинное обучение</Tag>
-                </Tags>
-              </Flex>
-              <Comments>Comments: 23</Comments>
-            </Item>
-            <Item>
-              <Flex>
-                <Rate>200</Rate>
-                <Texts>
-                  <Title>Чат-бот для поддержки клиентов</Title>
-                  <User>Алексей Колесников</User>
-                </Texts>
-                <Tags>
-                  <Tag>Клиентоцентричность</Tag>
-                  <Tag>Машинное обучение</Tag>
-                </Tags>
-              </Flex>
-              <Comments>Comments: 23</Comments>
-            </Item>
-            <Item>
-              <Flex>
-                <Rate>200</Rate>
-                <Texts>
-                  <Title>Чат-бот для поддержки клиентов</Title>
-                  <User>Алексей Колесников</User>
-                </Texts>
-                <Tags>
-                  <Tag>Клиентоцентричность</Tag>
-                  <Tag>Машинное обучение</Tag>
-                </Tags>
-              </Flex>
-              <Comments>Comments: 23</Comments>
-            </Item>
-            <Item>
-              <Flex>
-                <Rate>200</Rate>
-                <Texts>
-                  <Title>Чат-бот для поддержки клиентов</Title>
-                  <User>Алексей Колесников</User>
-                </Texts>
-                <Tags>
-                  <Tag>Клиентоцентричность</Tag>
-                  <Tag>Машинное обучение</Tag>
-                </Tags>
-              </Flex>
-              <Comments>Comments: 23</Comments>
-            </Item>
-            <Item>
-              <Flex>
-                <Rate>200</Rate>
-                <Texts>
-                  <Title>Чат-бот для поддержки клиентов</Title>
-                  <User>Алексей Колесников</User>
-                </Texts>
-                <Tags>
-                  <Tag>Клиентоцентричность</Tag>
-                  <Tag>Машинное обучение</Tag>
-                </Tags>
-              </Flex>
-              <Comments>Comments: 23</Comments>
-            </Item>
+            {posts.map((item: any, index: number) => (
+              <Item key={index}>
+                <Flex>
+                  <Rate>{item.id + 100}</Rate>
+                  <Texts>
+                    <Title>{item.title}</Title>
+                    <User>Алексей Колесников</User>
+                  </Texts>
+
+                  <Tags>
+                    {item.interest.slice(0, 2).map((item: any, key: number) => (
+                      <Tag key={key}>{item}</Tag>
+                    ))}
+                  </Tags>
+                </Flex>
+                <Comments>Comments: {item.comments.length}</Comments>
+              </Item>
+            ))}
           </ListItem>
         </Container>
       </Content>

@@ -3,6 +3,7 @@ import { IPropsItem, optionsData } from '../utils'
 import { registerUserAction } from '../../../core/User/duck'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { getIds } from '../utils'
 
 export interface IStateSteps {
   [key: string]: {
@@ -14,6 +15,9 @@ export interface IStateSteps {
 export const useSignUpFacade = () => {
   const history = useHistory()
   const dispatch = useDispatch()
+
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
 
   const [step, setStep] = useState<number>(1)
   const [disabledStep, setDisabledStep] = useState<boolean>(true)
@@ -41,6 +45,14 @@ export const useSignUpFacade = () => {
     department: {
       value: department,
       set: setDepartment,
+    },
+    email: {
+      value: email,
+      set: setEmail,
+    },
+    password: {
+      value: password,
+      set: setPassword,
     },
   }
 
@@ -73,10 +85,21 @@ export const useSignUpFacade = () => {
   }
 
   useEffect(() => {
-    if ((username.length === 0 || surname.length === 0 || department.length === 0) && step === 1)
+    if (
+      (username.length === 0 ||
+        surname.length === 0 ||
+        department.length === 0 ||
+        email.length === 0 ||
+        password.length === 0) &&
+      step === 1
+    )
       setDisabledStep(true)
 
-    if (username.length !== 0 && surname.length !== 0 && department.length !== 0 && step === 1)
+    if (
+      (username.length !== 0 && surname.length !== 0 && department.length !== 0) ||
+      email.length !== 0 ||
+      (password.length !== 0 && step === 1)
+    )
       setDisabledStep(false)
 
     if (interestsUserList.length === 0 && step === 2) setDisabledStep(true)
@@ -90,13 +113,13 @@ export const useSignUpFacade = () => {
     if (!disabledStep) {
       dispatch(
         registerUserAction({
-          email: 'email',
-          password: 'string',
+          email: email,
+          password: password,
           firstName: username,
           surname: surname,
           deparmentName: department,
-          expertise: [],
-          interest: [],
+          expertise: getIds(expertiseUserList),
+          interest: getIds(interestsUserList),
         })
       )
       history.push('/signin')
@@ -107,9 +130,11 @@ export const useSignUpFacade = () => {
     username,
     surname,
     department,
-    // interestsUserList,
-    // expertiseUserList,
+    interestsUserList,
+    expertiseUserList,
     disabledStep,
+    email,
+    password,
   ])
 
   return {

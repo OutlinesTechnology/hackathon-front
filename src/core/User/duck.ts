@@ -22,10 +22,11 @@ export const user = (state: IUser = initState, action: userActions): IUser => {
   }
 }
 
-export const authUserAction = (email: string, password: string) => (dispatch: IDispatch) => {
-  getAuthToken(email, password).then(result => {
-    if (result.status) {
-      setCookie('token_hak', result.data)
+export const authUserAction = (email: string, password: string, call: () => void) => () => {
+  getAuthToken(email, password).then(response => {
+    if (response.data.status) {
+      setCookie('token', response.data.data.token)
+      call()
     }
   })
 }

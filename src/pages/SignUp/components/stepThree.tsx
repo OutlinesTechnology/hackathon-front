@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { InputSuggest, Chips } from '@holism/core'
 import styled from 'styled-components'
-import { getSuggestions, IPropsItem, optionsData } from '../utils'
+import { getSuggestions, IPropsItem, optionsDataExpertise } from '../utils'
 import { IStateSteps } from '../hooks/useSignUpFacade'
 
 interface Props {
@@ -19,13 +19,13 @@ export const StepThree: React.FC<Props> = ({ eventsAndData }): JSX.Element => {
           onChange={val => {
             setValue(val)
 
-            const isFoundSuggestions = optionsData.some(
+            const isFoundSuggestions = optionsDataExpertise.some(
               (el: IPropsItem) =>
                 typeof el.label === 'string' && el.label.includes(val.toLocaleLowerCase())
             )
 
             isFoundSuggestions
-              ? eventsAndData['options'].set(getSuggestions(val, optionsData))
+              ? eventsAndData['options'].set(getSuggestions(val, optionsDataExpertise))
               : eventsAndData['options'].set([])
           }}
           getSuggestionsProp={getSuggestions}
@@ -35,7 +35,7 @@ export const StepThree: React.FC<Props> = ({ eventsAndData }): JSX.Element => {
 
             eventsAndData['userList'].set([
               ...eventsAndData['userList'].value,
-              { id: item.value, label: item.value },
+              { id: item.value, label: item.label },
             ])
           }}
           options={eventsAndData['options'].value}

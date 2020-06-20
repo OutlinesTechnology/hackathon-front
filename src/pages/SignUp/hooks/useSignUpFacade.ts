@@ -1,5 +1,8 @@
 import { useState, useCallback, useEffect } from 'react'
 import { IPropsItem, optionsData } from '../utils'
+import { registerUserAction } from '../../../core/User/duck'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 export interface IStateSteps {
   [key: string]: {
@@ -9,6 +12,9 @@ export interface IStateSteps {
 }
 
 export const useSignUpFacade = () => {
+  const history = useHistory()
+  const dispatch = useDispatch()
+
   const [step, setStep] = useState<number>(1)
   const [disabledStep, setDisabledStep] = useState<boolean>(true)
 
@@ -78,7 +84,33 @@ export const useSignUpFacade = () => {
 
     if (interestsUserList.length !== 0 && step === 2) setDisabledStep(false)
     if (expertiseUserList.length !== 0 && step === 3) setDisabledStep(false)
-  }, [username, surname, department, interestsUserList, expertiseUserList])
+  }, [username, surname, department, interestsUserList, expertiseUserList, step])
+
+  const registrationOnClick = useCallback(() => {
+    if (!disabledStep) {
+      dispatch(
+        registerUserAction({
+          email: 'email',
+          password: 'string',
+          firstName: username,
+          surname: surname,
+          deparmentName: department,
+          expertise: [],
+          interest: [],
+        })
+      )
+      history.push('/signin')
+    }
+  }, [
+    dispatch,
+    history,
+    username,
+    surname,
+    department,
+    // interestsUserList,
+    // expertiseUserList,
+    disabledStep,
+  ])
 
   return {
     stepsTotal,
@@ -88,5 +120,6 @@ export const useSignUpFacade = () => {
     stateTwoStep,
     stateThreeStep,
     disabledStep,
+    registrationOnClick,
   }
 }

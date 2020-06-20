@@ -1,4 +1,8 @@
 export interface IUser {
-  load: boolean
-  access: boolean
+  username: string
+  surname: string
+  email: string
+  deparmentName: string
+  expertise: number[]
+  interest: number[]
 }

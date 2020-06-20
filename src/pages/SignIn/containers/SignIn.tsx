@@ -51,9 +51,9 @@ export const SignIn: React.FC = (): JSX.Element => {
           >
             Вход
           </Button>
-          <LinkReg>
-            <Link to={'/signup'}>Регистрация</Link>
-          </LinkReg>
+          {/*<LinkReg>*/}
+          {/*  <Link to={'/signup'}>Регистрация</Link>*/}
+          {/*</LinkReg>*/}
         </Row>
       </Form>
     </Container>

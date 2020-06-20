@@ -1,21 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { H3, H1, Paragraph, Button, InputSuggest } from '@holism/core'
-import { optionsData } from '../utils'
+import { optionsDataMain } from '../utils'
 import { getSuggestions, IPropsItem } from 'pages/SignUp/utils'
 import { useHistory } from 'react-router-dom'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { getPostsAction } from 'core/Posts/duck'
+import { getPostsAction, getPostsByDepartAction } from 'core/Posts/duck'
 import { getPosts } from 'core/Posts/selectors'
 
 export const Main: React.FC = (): JSX.Element => {
-  const [stateOne, setStateOne] = useState(optionsData)
+  const [stateOne, setStateOne] = useState(optionsDataMain)
   const history = useHistory()
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getPostsAction())
   }, [dispatch])
+
+  const getFilterPost = useCallback(
+    (name: string) => {
+      dispatch(getPostsByDepartAction(name))
+    },
+    [dispatch]
+  )
 
   const posts = useSelector(getPosts, shallowEqual)
   return (
@@ -31,24 +38,28 @@ export const Main: React.FC = (): JSX.Element => {
           <InputSuggest
             width="100%"
             onChange={val => {
-              const isFoundSuggestions = optionsData.some(
-                (el: IPropsItem) =>
-                  typeof el.label === 'string' && el.label.includes(val.toLocaleLowerCase())
+              const isFoundSuggestions = optionsDataMain.some(
+                (el: IPropsItem) => typeof el.label === 'string' && el.label.includes(val)
               )
 
-              isFoundSuggestions ? setStateOne(getSuggestions(val, optionsData)) : setStateOne([])
+              isFoundSuggestions
+                ? setStateOne(getSuggestions(val, optionsDataMain))
+                : setStateOne([])
             }}
+            alwaysRenderSuggestions={false}
             getSuggestionsProp={getSuggestions}
-            onSelect={item => console.log('onSelect', item)}
+            // Todo: holism error types ( onSelect?: (item: IPropsItem[]) => void; )
+            onSelect={(item: any | IPropsItem) =>
+              typeof item.value === 'string' && getFilterPost(item.value)
+            }
             options={stateOne}
             placeholder="Введите название проекта, профессии или ключевое слово"
-            noOptionsMessage="Ничего не найдено"
           />
         </Header>
       </HeaderBg>
       <Content>
         <Container>
-          <H1>Проекты банка в поисках команды</H1>
+          <H1>Участвуйте в проектах банка</H1>
           <Paragraph color="#545454" size={16} lineHeight={14}>
             Подборка очень актуальных проектов. Оставяйте заявки на участие :)
           </Paragraph>
@@ -65,7 +76,7 @@ export const Main: React.FC = (): JSX.Element => {
 
           <ListItem>
             {posts.map((item: any, index: number) => (
-              <Item key={index}>
+              <Item key={index} onClick={() => history.push(`/post/${item.id}`)}>
                 <Flex>
                   <Rate>{item.id + 100}</Rate>
                   <Texts>

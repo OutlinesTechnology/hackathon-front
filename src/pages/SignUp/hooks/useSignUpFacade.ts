@@ -1,9 +1,9 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { IPropsItem, optionsData } from '../utils'
-import { registerUserAction } from '../../../core/User/duck'
+// import { registerUserAction } from '../../../core/User/duck'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { getIds } from '../utils'
+// import { getIds } from '../utils'
 
 export interface IStateSteps {
   [key: string]: {
@@ -16,45 +16,14 @@ export const useSignUpFacade = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-
   const [step, setStep] = useState<number>(1)
-  const [disabledStep, setDisabledStep] = useState<boolean>(true)
+  const [disabledStep, setDisabledStep] = useState<boolean>(false)
 
-  const stepsTotal = 3
+  const stepsTotal = 2
 
   const changeStep = useCallback(value => {
     setStep(value)
-    setDisabledStep(true)
   }, [])
-
-  const [username, setName] = useState<string>('')
-  const [surname, setSurname] = useState<string>('')
-  const [department, setDepartment] = useState<string>('')
-
-  const stateOneStep: IStateSteps = {
-    username: {
-      value: username,
-      set: setName,
-    },
-    surname: {
-      value: surname,
-      set: setSurname,
-    },
-    department: {
-      value: department,
-      set: setDepartment,
-    },
-    email: {
-      value: email,
-      set: setEmail,
-    },
-    password: {
-      value: password,
-      set: setPassword,
-    },
-  }
 
   const [interestsList, setInterestsList] = useState<IPropsItem[]>(optionsData)
   const [interestsUserList, setInterestsUserList] = useState<any>([])
@@ -84,64 +53,27 @@ export const useSignUpFacade = () => {
     },
   }
 
-  useEffect(() => {
-    if (
-      (username.length === 0 ||
-        surname.length === 0 ||
-        department.length === 0 ||
-        email.length === 0 ||
-        password.length === 0) &&
-      step === 1
-    )
-      setDisabledStep(true)
-
-    if (
-      (username.length !== 0 && surname.length !== 0 && department.length !== 0) ||
-      email.length !== 0 ||
-      (password.length !== 0 && step === 1)
-    )
-      setDisabledStep(false)
-
-    if (interestsUserList.length === 0 && step === 2) setDisabledStep(true)
-    if (expertiseUserList.length === 0 && step === 3) setDisabledStep(true)
-
-    if (interestsUserList.length !== 0 && step === 2) setDisabledStep(false)
-    if (expertiseUserList.length !== 0 && step === 3) setDisabledStep(false)
-  }, [username, password, email, surname, department, interestsUserList, expertiseUserList, step])
-
   const registrationOnClick = useCallback(() => {
     if (!disabledStep) {
-      dispatch(
-        registerUserAction({
-          email: email,
-          password: password,
-          firstName: username,
-          surname: surname,
-          deparmentName: department,
-          expertise: getIds(expertiseUserList),
-          interest: getIds(interestsUserList),
-        })
-      )
-      history.push('/signin')
+      // dispatch(
+      //   registerUserAction({
+      //     email: email,
+      //     password: password,
+      //     firstName: username,
+      //     surname: surname,
+      //     deparmentName: department,
+      //     expertise: getIds(expertiseUserList),
+      //     interest: getIds(interestsUserList),
+      //   })
+      // )
+      history.push('/')
     }
-  }, [
-    dispatch,
-    history,
-    username,
-    surname,
-    department,
-    interestsUserList,
-    expertiseUserList,
-    disabledStep,
-    email,
-    password,
-  ])
+  }, [dispatch, history, interestsUserList, expertiseUserList, disabledStep])
 
   return {
     stepsTotal,
     step,
     changeStep,
-    stateOneStep,
     stateTwoStep,
     stateThreeStep,
     disabledStep,

@@ -13,9 +13,7 @@ export const CreateProject: React.FC = (): JSX.Element => {
     <>
       <HeaderBg>
         <Header>
-          <LinkReg>
-            <Link to={'/'}>Назад</Link>
-          </LinkReg>
+          <div />
 
           <Title>
             <H3>Создание проекта</H3>
@@ -83,7 +81,7 @@ export const CreateProject: React.FC = (): JSX.Element => {
               getSuggestionsProp={getSuggestions}
               onSelect={item => console.log('onSelect', item)}
               options={stateCreateProject['projectArea'].value}
-              placeholder="Введите название проекта, профессии или ключевое слово"
+              placeholder="Выберите область проекта"
               noOptionsMessage="Ничего не найдено"
             />
           </Row>
@@ -121,7 +119,7 @@ export const CreateProject: React.FC = (): JSX.Element => {
           </Row>
           <Row>
             <Button dimension="medium" color="secondary" onClick={addProject} disabled={disabled}>
-              Опубликовать
+              Продолжить
             </Button>
           </Row>
         </Form>
@@ -144,16 +142,16 @@ const Title = styled.div`
   font-family: Proxima Nova, sans-serif;
 `
 
-const LinkReg = styled.div`
-  display: inline-block;
-`
-
-const Link = styled(LinkDom)`
-  text-decoration: none;
-  font-family: 'Proxima Nova', sans-serif;
-  cursor: pointer;
-  color: #0057b6;
-`
+// const LinkReg = styled.div`
+//   display: inline-block;
+// `
+//
+// const Link = styled(LinkDom)`
+//   text-decoration: none;
+//   font-family: 'Proxima Nova', sans-serif;
+//   cursor: pointer;
+//   color: #0057b6;
+// `
 
 const Header = styled.div`
   display: flex;

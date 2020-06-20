@@ -20,8 +20,6 @@ export const makeRequest = (
   })
 }
 
-// posts
-
 export const getAuthToken = (email: string, password: string) =>
   makeRequest(`user/auth`, 'POST', { email, password })
 
@@ -33,5 +31,6 @@ export const getPosts = () => makeRequest(`posts`, 'GET')
 
 export const addProjects = (params: any) => makeRequest(`posts`, 'POST', params)
 
-// export const getInterestingAndExpertiseLists = () =>
-//   makeRequest(`user/interest_expertise_list`, 'GET')
+export const getPostsById = (id: number) => makeRequest(`posts/${id}`, 'GET')
+
+export const getPostsByDepart = (name: string) => makeRequest(`posts/filtr/${name}`, 'GET')

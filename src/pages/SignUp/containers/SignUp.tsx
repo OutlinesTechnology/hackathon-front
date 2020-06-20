@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, H1, Paragraph } from '@holism/core'
 import styled from 'styled-components'
 import { useSignUpFacade } from '../hooks'
-import { StepThree, StepOne, StepTwo } from '../components'
+import { StepThree, StepTwo } from '../components'
 import { textSteps } from '../utils'
 
 export const SignUp: React.FC = (): JSX.Element => {
@@ -10,7 +10,6 @@ export const SignUp: React.FC = (): JSX.Element => {
     stepsTotal,
     step,
     changeStep,
-    stateOneStep,
     stateTwoStep,
     stateThreeStep,
     disabledStep,
@@ -20,10 +19,8 @@ export const SignUp: React.FC = (): JSX.Element => {
   const getContent = () => {
     switch (step) {
       case 1:
-        return <StepOne eventsAndData={stateOneStep} />
-      case 2:
         return <StepTwo eventsAndData={stateTwoStep} />
-      case 3:
+      case 2:
         return <StepThree eventsAndData={stateThreeStep} />
     }
   }
@@ -51,7 +48,9 @@ export const SignUp: React.FC = (): JSX.Element => {
           >
             {step >= stepsTotal ? 'Начать' : 'Продолжить'}
           </Button>
-          <Steps>{step} из 3 шагов</Steps>
+          <Steps>
+            {step} из {stepsTotal} шагов
+          </Steps>
         </Row>
       </Form>
     </Container>

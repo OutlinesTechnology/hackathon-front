@@ -15,9 +15,9 @@ export const StepTwo: React.FC<Props> = ({ eventsAndData }): JSX.Element => {
     <>
       <Row>
         <InputSuggest
-          value={value}
+          // value={value}
           onChange={val => {
-            setValue(val)
+            // setValue(val)
             const isFoundSuggestions = optionsData.some(
               (el: IPropsItem) =>
                 typeof el.label === 'string' && el.label.includes(val.toLocaleLowerCase())

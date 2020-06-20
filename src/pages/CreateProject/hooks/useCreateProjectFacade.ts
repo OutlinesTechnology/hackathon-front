@@ -4,9 +4,10 @@ import { optionsData } from '../../SignUp/utils'
 import { optionsBudgetData } from '../utils'
 import { IStateSteps } from '../../SignUp/hooks/useSignUpFacade'
 import { addPostAction } from 'core/Posts/duck'
-
+import { useHistory } from 'react-router-dom'
 export const useCreateProjectFacade = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const [isActiveFirst, setActiveFirst] = useState<boolean>(true)
   const [disabled, setDisabled] = useState<boolean>(true)
@@ -85,6 +86,7 @@ export const useCreateProjectFacade = () => {
           department: 0,
         })
       )
+      history.push('/next')
     }
   }, [
     isActiveFirst,

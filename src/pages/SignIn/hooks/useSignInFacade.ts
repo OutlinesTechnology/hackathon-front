@@ -16,7 +16,7 @@ export const useSignInFacade = () => {
 
   const onClickAuthorization = useCallback(() => {
     if (username.length !== 0 || password.length !== 0) {
-      dispatch(authUserAction(username, password, () => history.push('/')))
+      dispatch(authUserAction(username, password, () => history.push('/start')))
     }
   }, [dispatch, username, password, history])
 

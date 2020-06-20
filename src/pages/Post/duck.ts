@@ -1,6 +1,6 @@
 import { postActionsTypes } from './interfaces/action.user.interfaces'
 import { IDispatch } from 'store/redux.interfaces'
-import { getPostsById } from 'services/restApiService'
+import { getPostsById, postSubscription } from 'services/restApiService'
 
 const initState = {
   id: 0,
@@ -23,5 +23,14 @@ export const getPostByIdAction = (id: number) => (dispatch: IDispatch) => {
       type: postActionsTypes.UPDATE_POST,
       payload: { load: false, ...response.data.data[0] },
     })
+  })
+}
+
+export const postSubscriptionAction = (id: number) => (dispatch: IDispatch) => {
+  postSubscription(id).then(response => {
+    // dispatch({
+    //   type: postActionsTypes.UPDATE_POST,
+    //   payload: { load: false, ...response.data.data[0] },
+    // })
   })
 }

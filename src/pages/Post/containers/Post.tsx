@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Button, H1, H3, Input, Paragraph } from '@holism/core'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
-import { getPostByIdAction } from '../duck'
+import { getPostByIdAction, postSubscriptionAction } from '../duck'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { getPost } from '../selectors'
 import { Link as LinkDom } from 'react-router-dom'
@@ -31,7 +31,9 @@ export const Post: React.FC = (): JSX.Element => {
             <Link to={'/'}>Назад</Link>
           </LinkReg>
 
-          <Button dimension={'small'}>Участовать</Button>
+          <Button dimension={'small'} onClick={() => dispatch(postSubscriptionAction(post.id))}>
+            Участовать
+          </Button>
           <TitleHead>
             <H3>Просмотр проекта</H3>
           </TitleHead>

@@ -14,9 +14,9 @@ export const Routers: React.FC = (): JSX.Element => {
     }
   }, [user])
 
-  // if (!access) {
-  //   return <SignIn />
-  // }
+  if (!access) {
+    return <SignIn />
+  }
 
   return (
     <Switch>

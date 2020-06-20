@@ -1,7 +1,6 @@
 import React from 'react'
-import { Input, Button, H3, Switch, InputSuggest } from '@holism/core'
+import { Input, Button, H3, RadioButton, InputSuggest } from '@holism/core'
 import styled from 'styled-components'
-import { Link as LinkDom } from 'react-router-dom'
 import { getSuggestions, IPropsItem, optionsData } from '../../SignUp/utils'
 import { optionsBudgetData } from '../utils'
 import { useCreateProjectFacade } from '../hooks'
@@ -23,12 +22,13 @@ export const CreateProject: React.FC = (): JSX.Element => {
       <Content>
         <Form>
           <Row>
-            <Switch
-              labelOn={'Инициатива / Идея'}
+            <RadioButton
+              label="Инициатива / Идея"
               checked={stateCreateProject['switch'].value}
-              onChange={(evt, isChecked) => {
-                stateCreateProject['switch'].set(isChecked)
+              onChange={() => {
+                stateCreateProject['switch'].set(!stateCreateProject['switch'].value)
               }}
+              value="test"
             />
           </Row>
 

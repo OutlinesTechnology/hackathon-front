@@ -34,3 +34,6 @@ export const addProjects = (params: any) => makeRequest(`posts`, 'POST', params)
 export const getPostsById = (id: number) => makeRequest(`posts/${id}`, 'GET')
 
 export const getPostsByDepart = (name: string) => makeRequest(`posts/filtr/${name}`, 'GET')
+
+export const postSubscription = (postId: number) =>
+  makeRequest(`posts/subscription`, 'POST', { postId })

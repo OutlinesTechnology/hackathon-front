@@ -136,15 +136,16 @@ const Form = styled.div`
 `
 
 const Row = styled.div`
-  margin: 10px 0 10px 0;
+  margin: 10px 0 20px 0;
   width: 100%;
 `
 
-const Title = styled.div``
+const Title = styled.div`
+  font-family: Proxima Nova, sans-serif;
+`
 
 const LinkReg = styled.div`
   display: inline-block;
-  margin-left: 1em;
 `
 
 const Link = styled(LinkDom)`
@@ -158,7 +159,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 700px;
+  max-width: 600px;
   margin: 0 auto;
 `
 

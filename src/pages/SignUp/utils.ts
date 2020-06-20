@@ -20,29 +20,29 @@ export const optionsData: IPropsItem[] = [
   },
   {
     label: 'платежные технологии',
-    value: 1,
+    value: 0,
     caption: 'Платежные технологии',
   },
-  { label: 'openbanking', value: 'OpenBanking', caption: 'OpenBanking' },
+  { label: 'openbanking', value: 1, caption: 'OpenBanking' },
   {
     label: 'кибербезопасность',
     value: 2,
     caption: 'Кибербезопасность',
   },
-  { label: 'роботизация', value: 'Роботизация', caption: 'Роботизация' },
+  { label: 'роботизация', value: 3, caption: 'Роботизация' },
   {
     label: 'лучшие практики UI UX',
-    value: 3,
+    value: 4,
     caption: 'Лучшие практики UI UX',
   },
   {
     label: 'digital marketing',
-    value: 4,
+    value: 5,
     caption: 'Digital marketing',
   },
   {
     label: 'блокчейн',
-    value: 5,
+    value: 6,
     caption: 'Блокчейн',
   },
 ]

@@ -15,7 +15,7 @@ export const StepOne: React.FC<Props> = ({ eventsAndData }): JSX.Element => {
         <Input
           placeholder="Почта"
           value={eventsAndData['email'].value}
-          type="text"
+          type="email"
           onChange={(e: React.ChangeEvent<any>, val: string) => eventsAndData['email'].set(val)}
         />
       </Row>
@@ -23,7 +23,7 @@ export const StepOne: React.FC<Props> = ({ eventsAndData }): JSX.Element => {
         <Input
           placeholder="Пароль"
           value={eventsAndData['password'].value}
-          type="text"
+          type="password"
           onChange={(e: React.ChangeEvent<any>, val: string) => eventsAndData['password'].set(val)}
         />
       </Row>

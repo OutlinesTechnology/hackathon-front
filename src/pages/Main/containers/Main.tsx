@@ -56,6 +56,9 @@ export const Main: React.FC = (): JSX.Element => {
           <ListItemTop>
             <ItemTop>Машинное обучение в опционном...</ItemTop>
             <ItemTop>Машинное обучение в опционном...</ItemTop>
+            <ItemTop>Машинное обучение в опционном...</ItemTop>
+            <ItemTop>Машинное обучение в опционном...</ItemTop>
+            <ItemTop>Машинное обучение в опционном...</ItemTop>
           </ListItemTop>
 
           <H1>Лента проектов</H1>
@@ -71,14 +74,15 @@ export const Main: React.FC = (): JSX.Element => {
                       {item.first_name} {item.surname}
                     </User>
                   </Texts>
-
+                </Flex>
+                <Flex>
                   <Tags>
                     {item.interest.slice(0, 2).map((item: any, key: number) => (
                       <Tag key={key}>{item}</Tag>
                     ))}
                   </Tags>
+                  <Comments>Comments: {item.comments.length}</Comments>
                 </Flex>
-                <Comments>Comments: {item.comments.length}</Comments>
               </Item>
             ))}
           </ListItem>
@@ -167,7 +171,7 @@ const ItemTop = styled.div`
   color: white;
   height: 100%;
   background: #498dde;
-  padding: 8px;
+  padding: 32px 8px;
   font-weight: 600;
   border-radius: 5px;
   display: flex;

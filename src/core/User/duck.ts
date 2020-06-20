@@ -1,10 +1,16 @@
 import { userActionsTypes, userActions } from './interfaces/action.user.interfaces'
 import { IUser } from './interfaces/reducer.user.interfaces'
 import { IDispatch } from 'store/redux.interfaces'
-import { getAuthToken } from 'services/restApiService'
+import { getAuthToken, registerUser, getUserProfile } from 'services/restApiService'
+import { setCookie } from '../../utils/cookies'
+
 const initState: IUser = {
-  load: false,
-  access: false,
+  username: '',
+  surname: '',
+  email: '',
+  deparmentName: '',
+  expertise: [],
+  interest: [],
 }
 
 export const user = (state: IUser = initState, action: userActions): IUser => {
@@ -16,13 +22,22 @@ export const user = (state: IUser = initState, action: userActions): IUser => {
   }
 }
 
-// const updateUser = (payload: any): userActions => ({
-//   type: userActionsTypes.UPDATE_USER,
-//   payload: payload,
-// })
+export const authUserAction = (email: string, password: string) => (dispatch: IDispatch) => {
+  getAuthToken(email, password).then(result => {
+    if (result.status) {
+      setCookie('token_hak', result.data)
+    }
+  })
+}
 
-export const authUser = (email: string, password: string) => (dispatch: IDispatch) => {
-  getAuthToken(email, password)
-    .then()
-    .catch()
+export const registerUserAction = (params: any) => (dispatch: IDispatch) => {
+  registerUser(params).then(() => {
+    // dispatch({ type: userActionsTypes.UPDATE_USER, payload: params })
+  })
+}
+
+export const getProfile = () => (dispatch: IDispatch) => {
+  getUserProfile().then(result => {
+    dispatch({ type: userActionsTypes.UPDATE_USER, payload: result.data })
+  })
 }

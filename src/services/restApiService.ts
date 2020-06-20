@@ -31,5 +31,7 @@ export const getUserProfile = () => makeRequest(`user/profile`, 'GET')
 
 export const getPosts = () => makeRequest(`posts`, 'GET')
 
-export const getInterestingAndExpertiseLists = () =>
-  makeRequest(`user/interest_expertise_list`, 'GET')
+export const addProjects = (params: any) => makeRequest(`posts`, 'POST', params)
+
+// export const getInterestingAndExpertiseLists = () =>
+//   makeRequest(`user/interest_expertise_list`, 'GET')

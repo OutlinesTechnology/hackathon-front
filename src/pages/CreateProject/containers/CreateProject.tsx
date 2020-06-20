@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Input, Button, H3, Switch, InputSuggest } from '@holism/core'
 import styled from 'styled-components'
 import { Link as LinkDom } from 'react-router-dom'
-import { optionsData } from '../../Main/utils'
-import { getSuggestions, IPropsItem } from '../../SignUp/utils'
+import { getSuggestions, IPropsItem, optionsData } from '../../SignUp/utils'
 import { optionsBudgetData } from '../utils'
+import { useCreateProjectFacade } from '../hooks'
 
 export const CreateProject: React.FC = (): JSX.Element => {
-  const [isActiveFirst, setActiveFirst] = useState<boolean>(true)
-
-  const [stateOne, setStateOne] = useState(optionsData)
-  const [stateTwo, setStateTwo] = useState(optionsBudgetData)
+  const { stateCreateProject, disabled, addProject } = useCreateProjectFacade()
 
   return (
     <>
@@ -30,9 +27,9 @@ export const CreateProject: React.FC = (): JSX.Element => {
           <Row>
             <Switch
               labelOn={'Инициатива / Идея'}
-              checked={isActiveFirst}
+              checked={stateCreateProject['switch'].value}
               onChange={(evt, isChecked) => {
-                setActiveFirst(isChecked)
+                stateCreateProject['switch'].set(isChecked)
               }}
             />
           </Row>
@@ -40,27 +37,33 @@ export const CreateProject: React.FC = (): JSX.Element => {
           <Row>
             <Input
               placeholder="Название"
-              value={''}
+              value={stateCreateProject['nameProject'].value}
               type="text"
-              onChange={(e: React.ChangeEvent<any>, val: string) => val}
+              onChange={(e: React.ChangeEvent<any>, val: string) =>
+                stateCreateProject['nameProject'].set(val)
+              }
             />
           </Row>
 
           <Row>
             <Input
               placeholder="Идея проекта и какую проблему он решает"
-              value={''}
+              value={stateCreateProject['ideaProject'].value}
               type="text"
-              onChange={(e: React.ChangeEvent<any>, val: string) => val}
+              onChange={(e: React.ChangeEvent<any>, val: string) =>
+                stateCreateProject['ideaProject'].set(val)
+              }
             />
           </Row>
 
           <Row>
             <Input
               placeholder="Ожидаемый результат/ценность/выгода проекта?"
-              value={''}
+              value={stateCreateProject['resultProject'].value}
               type="text"
-              onChange={(e: React.ChangeEvent<any>, val: string) => val}
+              onChange={(e: React.ChangeEvent<any>, val: string) =>
+                stateCreateProject['resultProject'].set(val)
+              }
             />
           </Row>
 
@@ -73,11 +76,13 @@ export const CreateProject: React.FC = (): JSX.Element => {
                     typeof el.label === 'string' && el.label.includes(val.toLocaleLowerCase())
                 )
 
-                isFoundSuggestions ? setStateOne(getSuggestions(val, optionsData)) : setStateOne([])
+                isFoundSuggestions
+                  ? stateCreateProject['projectArea'].set(getSuggestions(val, optionsData))
+                  : stateCreateProject['projectArea'].set([])
               }}
               getSuggestionsProp={getSuggestions}
               onSelect={item => console.log('onSelect', item)}
-              options={stateOne}
+              options={stateCreateProject['projectArea'].value}
               placeholder="Введите название проекта, профессии или ключевое слово"
               noOptionsMessage="Ничего не найдено"
             />
@@ -93,12 +98,12 @@ export const CreateProject: React.FC = (): JSX.Element => {
                 )
 
                 isFoundSuggestions
-                  ? setStateTwo(getSuggestions(val, optionsBudgetData))
-                  : setStateTwo([])
+                  ? stateCreateProject['budget'].set(getSuggestions(val, optionsBudgetData))
+                  : stateCreateProject['budget'].set([])
               }}
               getSuggestionsProp={getSuggestions}
               onSelect={item => console.log('onSelect', item)}
-              options={stateTwo}
+              options={stateCreateProject['budget'].value}
               placeholder="Ожидаемый бюджет"
               noOptionsMessage="Ничего не найдено"
             />
@@ -106,14 +111,16 @@ export const CreateProject: React.FC = (): JSX.Element => {
 
           <Row>
             <Input
-              placeholder="Свободное поле"
-              value={''}
+              placeholder="Комментарий"
+              value={stateCreateProject['free'].value}
               type="text"
-              onChange={(e: React.ChangeEvent<any>, val: string) => val}
+              onChange={(e: React.ChangeEvent<any>, val: string) =>
+                stateCreateProject['free'].set(val)
+              }
             />
           </Row>
           <Row>
-            <Button dimension="medium" color="secondary" onClick={() => false}>
+            <Button dimension="medium" color="secondary" onClick={addProject} disabled={disabled}>
               Опубликовать
             </Button>
           </Row>

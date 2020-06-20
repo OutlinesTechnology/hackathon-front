@@ -1,6 +1,6 @@
 import { postsActionsTypes } from './interfaces/action.user.interfaces'
 import { IDispatch } from 'store/redux.interfaces'
-import { getPosts } from 'services/restApiService'
+import { getPosts, addProjects } from 'services/restApiService'
 
 export const posts = (state: any[] = [], action: any): any[] => {
   switch (action.type) {
@@ -14,5 +14,12 @@ export const posts = (state: any[] = [], action: any): any[] => {
 export const getPostsAction = () => (dispatch: IDispatch) => {
   getPosts().then(response => {
     dispatch({ type: postsActionsTypes.UPDATE_POSTS, payload: response.data.data })
+  })
+}
+
+export const addPostAction = (params: any) => (dispatch: IDispatch) => {
+  addProjects(params).then(response => {
+    console.log(response)
+    // dispatch({ type: postsActionsTypes.UPDATE_POSTS, payload: response.data.data })
   })
 }

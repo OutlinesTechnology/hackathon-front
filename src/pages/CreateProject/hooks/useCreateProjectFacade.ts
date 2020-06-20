@@ -1,27 +1,102 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { optionsData } from '../../Main/utils'
+import { optionsData } from '../../SignUp/utils'
 import { optionsBudgetData } from '../utils'
+import { IStateSteps } from '../../SignUp/hooks/useSignUpFacade'
+import { addPostAction } from 'core/Posts/duck'
 
 export const useCreateProjectFacade = () => {
+  const dispatch = useDispatch()
+
   const [isActiveFirst, setActiveFirst] = useState<boolean>(true)
+  const [disabled, setDisabled] = useState<boolean>(true)
 
-  const [stateOne, setStateOne] = useState(optionsData)
+  const [projectArea, setProjectArea] = useState(optionsData)
   const [budget, setBudget] = useState(optionsBudgetData)
-  // const [nameProject, setNameProject] = useState<string>('')
-  // const [nameProject, setNameProject] = useState<string>('')
-  // const [nameProject, setNameProject] = useState<string>('')
 
-  // const onClickAuthorization = useCallback(() => {
-  //   if (username.length !== 0 || password.length !== 0) {
-  //     dispatch(authUserAction(username, password))
-  //   }
-  // }, [dispatch, username, password])
+  const [nameProject, setNameProject] = useState<string>('')
+  const [ideaProject, setIdeaProject] = useState<string>('')
+  const [resultProject, setResultProject] = useState<string>('')
 
-  // useEffect(() => {
-  //   if (username.length !== 0 && password.length !== 0) setDisabled(false)
-  //   if (username.length === 0 || password.length === 0) setDisabled(true)
-  // }, [username, password])
+  const [free, setFree] = useState<string>('')
 
-  return { isActiveFirst }
+  const stateCreateProject: IStateSteps = {
+    switch: {
+      value: isActiveFirst,
+      set: setActiveFirst,
+    },
+    budget: {
+      value: budget,
+      set: setBudget,
+    },
+    projectArea: {
+      value: projectArea,
+      set: setProjectArea,
+    },
+    nameProject: {
+      value: nameProject,
+      set: setNameProject,
+    },
+    ideaProject: {
+      value: ideaProject,
+      set: setIdeaProject,
+    },
+    resultProject: {
+      value: resultProject,
+      set: setResultProject,
+    },
+    free: {
+      value: free,
+      set: setFree,
+    },
+  }
+
+  useEffect(() => {
+    if (
+      nameProject.length !== 0 &&
+      ideaProject.length !== 0 &&
+      resultProject.length !== 0 &&
+      projectArea.length === 1 &&
+      budget.length === 1
+    )
+      setDisabled(false)
+    if (
+      nameProject.length === 0 ||
+      ideaProject.length === 0 ||
+      resultProject.length === 0 ||
+      projectArea.length !== 1 ||
+      budget.length !== 1
+    )
+      setDisabled(true)
+  }, [budget, projectArea, nameProject, ideaProject, resultProject])
+
+  const addProject = useCallback(() => {
+    if (!disabled) {
+      dispatch(
+        addPostAction({
+          type: isActiveFirst,
+          title: nameProject,
+          ideaDescription: ideaProject,
+          awaitedResult: resultProject,
+          commentBox: free,
+          interest: [projectArea[0].value],
+          expertise: [],
+          budget: budget[0].value,
+          department: 0,
+        })
+      )
+    }
+  }, [
+    isActiveFirst,
+    budget,
+    projectArea,
+    ideaProject,
+    resultProject,
+    nameProject,
+    disabled,
+    free,
+    dispatch,
+  ])
+
+  return { stateCreateProject, disabled, addProject }
 }

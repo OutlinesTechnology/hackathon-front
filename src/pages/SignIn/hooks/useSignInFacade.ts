@@ -18,7 +18,7 @@ export const useSignInFacade = () => {
     if (username.length !== 0 || password.length !== 0) {
       dispatch(authUserAction(username, password, () => history.push('/')))
     }
-  }, [dispatch, username, password])
+  }, [dispatch, username, password, history])
 
   useEffect(() => {
     if (username.length !== 0 && password.length !== 0) setDisabled(false)

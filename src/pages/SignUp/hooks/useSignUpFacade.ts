@@ -107,7 +107,7 @@ export const useSignUpFacade = () => {
 
     if (interestsUserList.length !== 0 && step === 2) setDisabledStep(false)
     if (expertiseUserList.length !== 0 && step === 3) setDisabledStep(false)
-  }, [username, surname, department, interestsUserList, expertiseUserList, step])
+  }, [username, password, email, surname, department, interestsUserList, expertiseUserList, step])
 
   const registrationOnClick = useCallback(() => {
     if (!disabledStep) {

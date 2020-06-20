@@ -1,0 +1,1 @@
+export { useSignUpFacade } from './useSignUpFacade'

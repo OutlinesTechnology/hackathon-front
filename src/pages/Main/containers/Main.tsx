@@ -7,30 +7,15 @@ import { BriefcaseIcon } from '@holism/icons'
 export const Main: React.FC = (): JSX.Element => {
   return (
     <Container>
-      <Icon>
-        <BriefcaseIcon color="#fff" size={20} />
-      </Icon>
-      <Title size={18} lineHeight={24}>
-        text
-      </Title>
+      <Header>213</Header>
+      <Content>sdafa</Content>
     </Container>
   )
 }
 
-const Icon = styled.div`
-  padding: 2px 3px 4px 3px;
-  background: #262c40;
-  border-radius: 50%;
-  margin-bottom: 21px;
-  margin-top: 120px;
-`
+const Content = styled.div``
 
-const Title = styled(Paragraph)`
-  text-align: center;
-  padding-bottom: 56px;
-  color: #262c40;
-  width: 350px;
-`
+const Header = styled.div``
 
 const Container = styled.div`
   display: flex;

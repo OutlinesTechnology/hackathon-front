@@ -18,6 +18,7 @@ export const useSignUpFacade = () => {
     setStep(value)
     setDisabledStep(true)
   }, [])
+
   const [username, setName] = useState<string>('')
   const [surname, setSurname] = useState<string>('')
   const [department, setDepartment] = useState<string>('')

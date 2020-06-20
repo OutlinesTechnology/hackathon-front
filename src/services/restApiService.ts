@@ -37,3 +37,6 @@ export const getPostsByDepart = (name: string) => makeRequest(`posts/filtr/${nam
 
 export const postSubscription = (postId: number) =>
   makeRequest(`posts/subscription`, 'POST', { postId })
+
+export const addComment = (postId: number, content: string) =>
+  makeRequest(`posts/comment`, 'POST', { postId, content })

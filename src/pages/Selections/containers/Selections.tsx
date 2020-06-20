@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, H1, Input, Paragraph } from '@holism/core'
+import { Button, H1 } from '@holism/core'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 
@@ -10,7 +10,7 @@ export const Selections: React.FC = (): JSX.Element => {
     <Container>
       <Form>
         <Title>
-          <H1>Добро пожаловать</H1>
+          <H1>Давайте начнем</H1>
         </Title>
 
         <Row>
@@ -37,7 +37,7 @@ export const Selections: React.FC = (): JSX.Element => {
 }
 
 const Form = styled.div`
-  margin: 10px;
+  margin-top: 15%;
   max-width: 600px;
 `
 

@@ -1,6 +1,6 @@
 import { postActionsTypes } from './interfaces/action.user.interfaces'
 import { IDispatch } from 'store/redux.interfaces'
-import { getPostsById, postSubscription } from 'services/restApiService'
+import { addComment, getPostsById, postSubscription } from 'services/restApiService'
 
 const initState = {
   id: 0,
@@ -32,5 +32,11 @@ export const postSubscriptionAction = (id: number) => (dispatch: IDispatch) => {
     //   type: postActionsTypes.UPDATE_POST,
     //   payload: { load: false, ...response.data.data[0] },
     // })
+  })
+}
+
+export const addCommentAction = (id: number, content: string) => (dispatch: IDispatch) => {
+  addComment(id, content).then(() => {
+    dispatch(getPostByIdAction(id))
   })
 }

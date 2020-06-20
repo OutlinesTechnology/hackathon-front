@@ -1,8 +1,6 @@
 import React from 'react'
-import { Paragraph } from '@holism/core'
+// import { Paragraph } from '@holism/core'
 import styled from 'styled-components'
-
-import { BriefcaseIcon } from '@holism/icons'
 
 export const Main: React.FC = (): JSX.Element => {
   return (

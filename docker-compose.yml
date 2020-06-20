@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  hackathon-frontend:
+    container_name: hackathon-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - 81:80
+

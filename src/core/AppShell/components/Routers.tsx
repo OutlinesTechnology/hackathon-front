@@ -2,7 +2,6 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { SignIn, SignUp } from 'pages'
 // import { getUser } from '../../User/selectors'
-// import { Modal, Preloader } from 'common'
 
 export const Routers: React.FC = (): JSX.Element => {
   return (

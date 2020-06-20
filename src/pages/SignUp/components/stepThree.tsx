@@ -1,79 +1,50 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { InputSuggest, Chips } from '@holism/core'
 import styled from 'styled-components'
+import { getSuggestions, optionsData } from '../utils'
 
-const getSuggestions = (value: string, options: any[]) =>
-  options.filter((option: any) => option && option.label.includes(value.toLocaleLowerCase()))
-
-const optionsData = [
-  {
-    label: 'финансовая грамотность',
-    value: 'Финансовая грамотность',
-    caption: 'Финансовая грамотность',
-  },
-  {
-    label: 'платежные технологии',
-    value: 'Платежные технологии',
-    caption: 'Платежные технологии',
-  },
-  { label: 'openBanking', value: 'OpenBanking', caption: 'OpenBanking' },
-  {
-    label: 'кибербезопасность',
-    value: 'Кибербезопасность',
-    caption: 'Кибербезопасность',
-  },
-  { label: 'роботизация', value: 'Роботизация', caption: 'Роботизация' },
-  {
-    label: 'лучшие практики UI UX',
-    value: 'Лучшие практики UI UX',
-    caption: 'Лучшие практики UI UX',
-  },
-  {
-    label: 'digital marketing',
-    value: 'Digital marketing',
-    caption: 'Digital marketing',
-  },
-  {
-    label: 'блокчейн',
-    value: 'Блокчейн',
-    caption: 'Блокчейн',
-  },
-]
-
-export const StepThree: React.FC = (): JSX.Element => {
-  const [stateOne, setStateOne] = useState<any>(optionsData)
-  const [list, setList] = useState<any>([])
-
+export const StepThree: React.FC<any> = ({ eventsAndData }): JSX.Element => {
   return (
-    <>
+    <Container>
       <Row>
         <InputSuggest
           onChange={val => {
-            const isFoundSuggestions = optionsData.some(el => el.label.includes(val))
+            const isFoundSuggestions = optionsData.some((el: any) =>
+              el.label.includes(val.toLocaleLowerCase())
+            )
 
-            isFoundSuggestions ? setStateOne(getSuggestions(val, optionsData)) : setStateOne([])
+            isFoundSuggestions
+              ? eventsAndData['options'].set(getSuggestions(val, optionsData))
+              : eventsAndData['options'].set([])
           }}
           getSuggestionsProp={getSuggestions}
-          onSelect={(item: any) => setList([...list, { id: item.value, label: item.value }])}
-          options={stateOne}
-          placeholder="Ваши эспертизы"
+          onSelect={(item: any) => {
+            eventsAndData['userList'].set([
+              ...eventsAndData['userList'].value,
+              { id: item.value, label: item.value },
+            ])
+          }}
+          options={eventsAndData['options'].value}
+          placeholder="Ваши экспертизы"
           noOptionsMessage="Ничего не найдено"
         />
       </Row>
       <Row>
         <Chips
-          items={list}
+          items={eventsAndData['userList'].value}
           onRemoveItem={id => {
-            const index = list.findIndex((el: any) => el.id === id)
+            const index = eventsAndData['userList'].value.findIndex((el: any) => el.id === id)
 
-            list.splice(index, 1)
-            setList([...list])
+            eventsAndData['userList'].value.splice(index, 1)
+            eventsAndData['userList'].set([...eventsAndData['userList'].value])
           }}
         />
       </Row>
-    </>
+    </Container>
   )
 }
+
+const Container = styled.div``
 
 const Row = styled.div`
   margin: 10px 0 10px 0;

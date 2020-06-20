@@ -2,31 +2,33 @@ import React from 'react'
 import { Input } from '@holism/core'
 import styled from 'styled-components'
 
-export const StepOne: React.FC = (): JSX.Element => {
+export const StepOne: React.FC<any> = ({ eventsAndData }): JSX.Element => {
   return (
     <>
       <Row>
         <Input
           placeholder="Имя"
-          value={''}
+          value={eventsAndData['username'].value}
           type="text"
-          onChange={(e: React.ChangeEvent<any>, val: string) => val}
+          onChange={(e: React.ChangeEvent<any>, val: string) => eventsAndData['username'].set(val)}
         />
       </Row>
       <Row>
         <Input
           placeholder="Фамилия"
-          value={''}
+          value={eventsAndData['surname'].value}
           type="text"
-          onChange={(e: React.ChangeEvent<any>, val: string) => val}
+          onChange={(e: React.ChangeEvent<any>, val: string) => eventsAndData['surname'].set(val)}
         />
       </Row>
       <Row>
         <Input
           placeholder="Департамент"
-          value={''}
+          value={eventsAndData['department'].value}
           type="text"
-          onChange={(e: React.ChangeEvent<any>, val: string) => val}
+          onChange={(e: React.ChangeEvent<any>, val: string) =>
+            eventsAndData['department'].set(val)
+          }
         />
       </Row>
     </>

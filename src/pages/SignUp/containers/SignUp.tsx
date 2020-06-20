@@ -5,16 +5,23 @@ import { useSignUpFacade } from '../hooks'
 import { StepThree, StepOne, StepTwo } from '../components'
 
 export const SignUp: React.FC = (): JSX.Element => {
-  const { stepsTotal, step, changeStep } = useSignUpFacade()
+  const {
+    stepsTotal,
+    step,
+    changeStep,
+    stateOneStep,
+    stateTwoStep,
+    stateThreeStep,
+  } = useSignUpFacade()
 
   const getContent = () => {
     switch (step) {
       case 1:
-        return <StepOne />
+        return <StepOne eventsAndData={stateOneStep} />
       case 2:
-        return <StepTwo />
+        return <StepTwo eventsAndData={stateTwoStep} />
       case 3:
-        return <StepThree />
+        return <StepThree eventsAndData={stateThreeStep} />
     }
   }
 

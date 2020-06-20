@@ -8,6 +8,7 @@ import { optionsBudgetData } from '../utils'
 
 export const CreateProject: React.FC = (): JSX.Element => {
   const [isActiveFirst, setActiveFirst] = useState<boolean>(true)
+
   const [stateOne, setStateOne] = useState(optionsData)
   const [stateTwo, setStateTwo] = useState(optionsBudgetData)
 

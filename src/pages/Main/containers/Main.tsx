@@ -67,7 +67,9 @@ export const Main: React.FC = (): JSX.Element => {
                   <Rate>{item.id + 100}</Rate>
                   <Texts>
                     <Title>{item.title}</Title>
-                    <User>Алексей Колесников</User>
+                    <User>
+                      {item.first_name} {item.surname}
+                    </User>
                   </Texts>
 
                   <Tags>

@@ -1,1 +1,1 @@
-export const URL: string = ''
+export const URL: string = 'https://hack-api.outlines.tech'

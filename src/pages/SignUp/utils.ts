@@ -1,7 +1,16 @@
-export const getSuggestions = (value: string, options: any[]) =>
-  options.filter((option: any) => option && option.label.includes(value.toLocaleLowerCase()))
+export const getSuggestions = (value: string, options: IPropsItem[]) =>
+  options.filter(
+    (option: IPropsItem) =>
+      option && typeof option.label === 'string' && option.label.includes(value.toLocaleLowerCase())
+  )
 
-export const optionsData = [
+export interface IPropsItem {
+  label: string | number | null
+  value: string | number | null
+  [propName: string]: any
+}
+
+export const optionsData: IPropsItem[] = [
   {
     label: 'финансовая грамотность',
     value: 'Финансовая грамотность',
@@ -12,7 +21,7 @@ export const optionsData = [
     value: 'Платежные технологии',
     caption: 'Платежные технологии',
   },
-  { label: 'openBanking', value: 'OpenBanking', caption: 'OpenBanking' },
+  { label: 'openbanking', value: 'OpenBanking', caption: 'OpenBanking' },
   {
     label: 'кибербезопасность',
     value: 'Кибербезопасность',
@@ -35,3 +44,27 @@ export const optionsData = [
     caption: 'Блокчейн',
   },
 ]
+
+interface ITextSteps {
+  [key: number]: {
+    title: string
+    description: string
+  }
+}
+
+export const textSteps: ITextSteps = {
+  1: {
+    title: 'Добро пожаловать',
+    description: 'Давайте заполним пару шагов для знакомства :)',
+  },
+  2: {
+    title: 'Какие у вас интересы?',
+    description:
+      'Расскажите о том, какие проекты и сферы вам интересны, чтобы мы подобрали подходящие проекты для вас',
+  },
+  3: {
+    title: 'Какие у вас компетенции?',
+    description:
+      'Расскажите о том, какой экспертизой вы готовы поделитьсся, чтобы вас могли найти и пригласить в команду или на проект',
+  },
+}

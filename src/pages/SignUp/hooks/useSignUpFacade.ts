@@ -1,21 +1,28 @@
-import { useState, useCallback } from 'react'
-import { optionsData } from '../utils'
+import { useState, useCallback, useEffect } from 'react'
+import { IPropsItem, optionsData } from '../utils'
+
+export interface IStateSteps {
+  [key: string]: {
+    value: string | IPropsItem[] | any
+    set: (value: string | IPropsItem[] | any) => void
+  }
+}
 
 export const useSignUpFacade = () => {
   const [step, setStep] = useState<number>(1)
+  const [disabledStep, setDisabledStep] = useState<boolean>(true)
+
   const stepsTotal = 3
 
-  const changeStep = useCallback(
-    value => {
-      setStep(value)
-    },
-    [setStep]
-  )
+  const changeStep = useCallback(value => {
+    setStep(value)
+    setDisabledStep(true)
+  }, [])
   const [username, setName] = useState<string>('')
   const [surname, setSurname] = useState<string>('')
   const [department, setDepartment] = useState<string>('')
 
-  const stateOneStep = {
+  const stateOneStep: IStateSteps = {
     username: {
       value: username,
       set: setName,
@@ -30,10 +37,10 @@ export const useSignUpFacade = () => {
     },
   }
 
-  const [interestsList, setInterestsList] = useState<any>(optionsData)
+  const [interestsList, setInterestsList] = useState<IPropsItem[]>(optionsData)
   const [interestsUserList, setInterestsUserList] = useState<any>([])
 
-  const stateTwoStep = {
+  const stateTwoStep: IStateSteps = {
     options: {
       value: interestsList,
       set: setInterestsList,
@@ -44,10 +51,10 @@ export const useSignUpFacade = () => {
     },
   }
 
-  const [expertiseList, setIExpertiseList] = useState<any>(optionsData)
+  const [expertiseList, setIExpertiseList] = useState<IPropsItem[]>(optionsData)
   const [expertiseUserList, setExpertiseUserList] = useState<any>([])
 
-  const stateThreeStep = {
+  const stateThreeStep: IStateSteps = {
     options: {
       value: expertiseList,
       set: setIExpertiseList,
@@ -58,6 +65,20 @@ export const useSignUpFacade = () => {
     },
   }
 
+  useEffect(() => {
+    if ((username.length === 0 || surname.length === 0 || department.length === 0) && step === 1)
+      setDisabledStep(true)
+
+    if (username.length !== 0 && surname.length !== 0 && department.length !== 0 && step === 1)
+      setDisabledStep(false)
+
+    if (interestsUserList.length === 0 && step === 2) setDisabledStep(true)
+    if (expertiseUserList.length === 0 && step === 3) setDisabledStep(true)
+
+    if (interestsUserList.length !== 0 && step === 2) setDisabledStep(false)
+    if (expertiseUserList.length !== 0 && step === 3) setDisabledStep(false)
+  }, [username, surname, department, interestsUserList, expertiseUserList])
+
   return {
     stepsTotal,
     step,
@@ -65,5 +86,6 @@ export const useSignUpFacade = () => {
     stateOneStep,
     stateTwoStep,
     stateThreeStep,
+    disabledStep,
   }
 }

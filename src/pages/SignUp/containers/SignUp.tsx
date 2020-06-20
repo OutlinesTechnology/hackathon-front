@@ -3,6 +3,7 @@ import { Button, H1, Paragraph } from '@holism/core'
 import styled from 'styled-components'
 import { useSignUpFacade } from '../hooks'
 import { StepThree, StepOne, StepTwo } from '../components'
+import { textSteps } from '../utils'
 
 export const SignUp: React.FC = (): JSX.Element => {
   const {
@@ -12,6 +13,7 @@ export const SignUp: React.FC = (): JSX.Element => {
     stateOneStep,
     stateTwoStep,
     stateThreeStep,
+    disabledStep,
   } = useSignUpFacade()
 
   const getContent = () => {
@@ -25,14 +27,16 @@ export const SignUp: React.FC = (): JSX.Element => {
     }
   }
 
+  const texts = textSteps[step]
+
   return (
     <Container>
       <Form>
         <Title>
-          <H1>Добро пожаловать</H1>
+          <H1>{texts.title}</H1>
         </Title>
         <Paragraph size={16} lineHeight={24}>
-          Давайте заполним пару шагов для знакомства :)
+          {texts.description}
         </Paragraph>
 
         {getContent()}
@@ -42,6 +46,7 @@ export const SignUp: React.FC = (): JSX.Element => {
             dimension="medium"
             color="secondary"
             onClick={() => (step < stepsTotal ? changeStep(step + 1) : false)}
+            disabled={disabledStep}
           >
             {step >= stepsTotal ? 'Начать' : 'Продолжить'}
           </Button>
@@ -69,9 +74,8 @@ const Row = styled.div`
 `
 
 const Title = styled.div`
-  margin: 10px 0 10px 0;
-  margin-bottom: 20px;
-  max-width: 300px;
+  margin: 10px 0 20px 0;
+  max-width: 380px;
 `
 
 const Steps = styled.div`

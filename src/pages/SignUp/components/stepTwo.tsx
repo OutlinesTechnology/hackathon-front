@@ -1,16 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { InputSuggest, Chips } from '@holism/core'
 import styled from 'styled-components'
-import { getSuggestions, optionsData } from '../utils'
+import { getSuggestions, optionsData, IPropsItem } from '../utils'
+import { IStateSteps } from '../hooks/useSignUpFacade'
 
-export const StepTwo: React.FC<any> = ({ eventsAndData }): JSX.Element => {
+interface Props {
+  eventsAndData: IStateSteps
+}
+
+export const StepTwo: React.FC<Props> = ({ eventsAndData }): JSX.Element => {
+  const [value, setValue] = useState('')
+
   return (
-    <Container>
+    <>
       <Row>
         <InputSuggest
+          value={value}
           onChange={val => {
-            const isFoundSuggestions = optionsData.some((el: any) =>
-              el.label.includes(val.toLocaleLowerCase())
+            setValue(val)
+            const isFoundSuggestions = optionsData.some(
+              (el: IPropsItem) =>
+                typeof el.label === 'string' && el.label.includes(val.toLocaleLowerCase())
             )
 
             isFoundSuggestions
@@ -18,7 +28,9 @@ export const StepTwo: React.FC<any> = ({ eventsAndData }): JSX.Element => {
               : eventsAndData['options'].set([])
           }}
           getSuggestionsProp={getSuggestions}
-          onSelect={(item: any) => {
+          // Todo: holism error types ( onSelect?: (item: IPropsItem[]) => void; )
+          onSelect={(item: any | IPropsItem) => {
+            setValue('')
             eventsAndData['userList'].set([
               ...eventsAndData['userList'].value,
               { id: item.value, label: item.value },
@@ -33,20 +45,20 @@ export const StepTwo: React.FC<any> = ({ eventsAndData }): JSX.Element => {
         <Chips
           items={eventsAndData['userList'].value}
           onRemoveItem={id => {
-            const index = eventsAndData['userList'].value.findIndex((el: any) => el.id === id)
+            const index = eventsAndData['userList'].value.findIndex(
+              (el: IPropsItem) => el.id === id
+            )
 
             eventsAndData['userList'].value.splice(index, 1)
             eventsAndData['userList'].set([...eventsAndData['userList'].value])
           }}
         />
       </Row>
-    </Container>
+    </>
   )
 }
 
-const Container = styled.div``
-
 const Row = styled.div`
   margin: 10px 0 10px 0;
-  max-width: 500px;
+  max-width: 360px;
 `

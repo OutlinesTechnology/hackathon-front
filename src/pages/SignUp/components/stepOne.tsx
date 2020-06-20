@@ -2,7 +2,13 @@ import React from 'react'
 import { Input } from '@holism/core'
 import styled from 'styled-components'
 
-export const StepOne: React.FC<any> = ({ eventsAndData }): JSX.Element => {
+import { IStateSteps } from '../hooks/useSignUpFacade'
+
+interface Props {
+  eventsAndData: IStateSteps
+}
+
+export const StepOne: React.FC<Props> = ({ eventsAndData }): JSX.Element => {
   return (
     <>
       <Row>

@@ -12,7 +12,6 @@ export const SignUp: React.FC = (): JSX.Element => {
     changeStep,
     stateTwoStep,
     stateThreeStep,
-    disabledStep,
     registrationOnClick,
   } = useSignUpFacade()
 
@@ -44,7 +43,6 @@ export const SignUp: React.FC = (): JSX.Element => {
             dimension="medium"
             color="secondary"
             onClick={() => (step < stepsTotal ? changeStep(step + 1) : registrationOnClick())}
-            disabled={disabledStep}
           >
             {step >= stepsTotal ? 'Начать' : 'Продолжить'}
           </Button>

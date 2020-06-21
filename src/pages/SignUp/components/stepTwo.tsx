@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { InputSuggest, Chips } from '@holism/core'
 import styled from 'styled-components'
 import { getSuggestions, optionsData, IPropsItem } from '../utils'
@@ -9,15 +9,11 @@ interface Props {
 }
 
 export const StepTwo: React.FC<Props> = ({ eventsAndData }): JSX.Element => {
-  const [value, setValue] = useState('')
-
   return (
     <>
       <Row>
         <InputSuggest
-          // value={value}
           onChange={val => {
-            // setValue(val)
             const isFoundSuggestions = optionsData.some(
               (el: IPropsItem) =>
                 typeof el.label === 'string' && el.label.includes(val.toLocaleLowerCase())
@@ -30,7 +26,6 @@ export const StepTwo: React.FC<Props> = ({ eventsAndData }): JSX.Element => {
           getSuggestionsProp={getSuggestions}
           // Todo: holism error types ( onSelect?: (item: IPropsItem[]) => void; )
           onSelect={(item: any | IPropsItem) => {
-            setValue('')
             eventsAndData['userList'].set([
               ...eventsAndData['userList'].value,
               { id: item.value, label: item.label },

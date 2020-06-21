@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { getPostsAction, getPostsByDepartAction } from 'core/Posts/duck'
 import { getPosts } from 'core/Posts/selectors'
+import imageThree from '../assets/three.png'
 
 export const Main: React.FC = (): JSX.Element => {
   const [stateOne, setStateOne] = useState(optionsDataMain)
@@ -65,11 +66,11 @@ export const Main: React.FC = (): JSX.Element => {
           </Paragraph>
 
           <ListItemTop>
-            <ItemTop>Машинное обучение в опционном...</ItemTop>
-            <ItemTop>Машинное обучение в опционном...</ItemTop>
-            <ItemTop>Машинное обучение в опционном...</ItemTop>
-            <ItemTop>Машинное обучение в опционном...</ItemTop>
-            <ItemTop>Машинное обучение в опционном...</ItemTop>
+            <ItemTop image={imageThree}>Машинное обучение в опционном</ItemTop>
+            <ItemTop image={imageThree}>Разработка мобильного портала</ItemTop>
+            <ItemTop image={imageThree}>Blockchain в платежных системах</ItemTop>
+            <ItemTop image={imageThree}>Разработка мобильного приложения</ItemTop>
+            <ItemTop image={imageThree}>AR в digital маркетинге</ItemTop>
           </ListItemTop>
 
           <H1>Лента проектов</H1>
@@ -80,7 +81,7 @@ export const Main: React.FC = (): JSX.Element => {
                 <Flex>
                   <Rate>{item.id + 100}</Rate>
                   <Texts>
-                    <Title>{item.title}</Title>
+                    <Title>{item.title.slice(0, 40)}...</Title>
                     <User>
                       {item.first_name} {item.surname}
                     </User>
@@ -88,11 +89,11 @@ export const Main: React.FC = (): JSX.Element => {
                 </Flex>
                 <Flex>
                   <Tags>
-                    {item.interest.slice(0, 2).map((item: any, key: number) => (
+                    {item.interest.slice(0, 2).map((item: string, key: number) => (
                       <Tag key={key}>{item}</Tag>
                     ))}
                   </Tags>
-                  <Comments>Comments: {item.comments.length}</Comments>
+                  <Comments>Комментарии: {item.comments.length}</Comments>
                 </Flex>
               </Item>
             ))}
@@ -169,6 +170,7 @@ const Item = styled.div`
   align-items: center;
   border-bottom: 1px solid #262c40;
   justify-content: space-between;
+  cursor: pointer;
 `
 
 const ListItem = styled.div`
@@ -178,10 +180,14 @@ const ListItem = styled.div`
   max-width: 630px;
 `
 
-const ItemTop = styled.div`
+interface IItemTop {
+  image: string
+}
+
+const ItemTop = styled.div<IItemTop>`
   color: white;
   height: 100%;
-  background: #498dde;
+  background: url(${p => p.image});
   padding: 32px 8px;
   font-weight: 600;
   border-radius: 5px;
@@ -193,6 +199,7 @@ const ItemTop = styled.div`
   font-size: 0.9em;
   line-height: 1.29;
   letter-spacing: 0.17px;
+  height: 56px;
 `
 
 const ListItemTop = styled.div`

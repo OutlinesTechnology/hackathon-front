@@ -2,7 +2,6 @@ import React from 'react'
 import { Input, Button, H1, Paragraph } from '@holism/core'
 import styled from 'styled-components'
 import { useSignInFacade } from '../hooks'
-import { Link as LinkDom } from 'react-router-dom'
 
 export const SignIn: React.FC = (): JSX.Element => {
   const {
@@ -79,16 +78,4 @@ const Title = styled.div`
   margin: 10px 0 10px 0;
   margin-bottom: 20px;
   width: 300px;
-`
-
-const LinkReg = styled.div`
-  display: inline-block;
-  margin-left: 1em;
-`
-
-const Link = styled(LinkDom)`
-  text-decoration: none;
-  font-family: 'Proxima Nova', sans-serif;
-  cursor: pointer;
-  color: #0057b6;
 `

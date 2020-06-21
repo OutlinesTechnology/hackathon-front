@@ -98,6 +98,7 @@ export const useCreateProjectFacade = () => {
     disabled,
     free,
     dispatch,
+    history,
   ])
 
   return { stateCreateProject, disabled, addProject }

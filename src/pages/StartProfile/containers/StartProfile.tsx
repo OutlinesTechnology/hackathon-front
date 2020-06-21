@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, H1, Input, Paragraph } from '@holism/core'
+import { Button, H1, Input } from '@holism/core'
 import styled from 'styled-components'
 import { useStartProfileFacade } from '../hooks'
 import { useHistory } from 'react-router-dom'
@@ -12,11 +12,8 @@ export const StartProfile: React.FC = (): JSX.Element => {
     <Container>
       <Form>
         <Title>
-          <H1>Добро пожаловать</H1>
+          <H1>Добро пожаловать!</H1>
         </Title>
-        <Paragraph size={16} lineHeight={24}>
-          Давайте заполним для знакомства :)
-        </Paragraph>
 
         <Row>
           <Input

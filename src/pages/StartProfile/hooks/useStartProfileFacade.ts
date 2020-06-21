@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { IStateSteps } from '../../SignUp/hooks/useSignUpFacade'
 
 export const useStartProfileFacade = () => {
-  const [username, setName] = useState<string>('Иван')
-  const [surname, setSurname] = useState<string>('Иванов')
+  const [username, setName] = useState<string>('Максим')
+  const [surname, setSurname] = useState<string>('Максимов')
 
   const stateProfile: IStateSteps = {
     username: {

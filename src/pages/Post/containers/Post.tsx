@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, H1, H3, Input, Paragraph } from '@holism/core'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
@@ -7,21 +7,24 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { getPost } from '../selectors'
 import { Link as LinkDom } from 'react-router-dom'
 import { postActionsTypes } from '../interfaces/action.user.interfaces'
+import moment from 'moment'
 
 export const Post: React.FC = (): JSX.Element => {
   const params = useParams<any>()
   const dispatch = useDispatch()
   const post = useSelector(getPost, shallowEqual)
+  const [comment, setComment] = useState('')
 
   useEffect(() => {
     dispatch(getPostByIdAction(params.id))
     return () => {
       dispatch({
-        type: postActionsTypes.UPDATE_POST,
-        payload: { load: false },
+        type: postActionsTypes.RESET_POST,
       })
     }
   }, [dispatch, params])
+
+  if (post.load === true) return <></>
 
   return (
     <>
@@ -31,12 +34,17 @@ export const Post: React.FC = (): JSX.Element => {
             <Link to={'/'}>Назад</Link>
           </LinkReg>
 
-          <Button dimension={'small'} onClick={() => dispatch(postSubscriptionAction(post.id))}>
-            Участовать
+          <Button
+            dimension={'small'}
+            onClick={() => !post.participant && dispatch(postSubscriptionAction(post.id))}
+            view="rounded"
+            color="secondary"
+          >
+            {post.participant ? 'Я в проекте' : 'Участвовать'}
           </Button>
-          <TitleHead>
-            <H3>Просмотр проекта</H3>
-          </TitleHead>
+          {/*<TitleHead>*/}
+          {/*  <H3>Просмотр проекта</H3>*/}
+          {/*</TitleHead>*/}
         </Header>
       </HeaderBg>
       <Content>
@@ -44,63 +52,77 @@ export const Post: React.FC = (): JSX.Element => {
           <Title>
             <H1>{post.title}</H1>
           </Title>
-          <Paragraph size={16} lineHeight={24}>
-            Давайте заполним для знакомства :)
-          </Paragraph>
+          <Tags>
+            {post.interest.map((item: string, key: number) => (
+              <Tag key={key}>{item}</Tag>
+            ))}
+          </Tags>
+          <Row>
+            <Paragraph size={16} lineHeight={24}>
+              Идея проекта: {post.idea_description}
+            </Paragraph>
+          </Row>
 
           <Row>
-            <Title>
-              <H3>Идея проект и какую проблему он решает</H3>
-            </Title>
             <Paragraph size={16} lineHeight={24}>
-              Давайте заполним для знакомства :)
+              Ожидаемый результат: {post.awaited_result}
+            </Paragraph>
+          </Row>
+
+          <Row>
+            <Paragraph size={16} lineHeight={24}>
+              Департамент: {post.department_name}
+            </Paragraph>
+          </Row>
+
+          <Row>
+            <Paragraph size={16} lineHeight={24}>
+              Комментарий автора: {post.comment_box}
+            </Paragraph>
+          </Row>
+
+          <Row>
+            <Paragraph size={16} lineHeight={24}>
+              Ожидаемый бюджет: {post.budget}
             </Paragraph>
           </Row>
 
           <Row>
             <Title>
-              <H3>Ожидаемый результат/ценность/выгода проекта</H3>
+              <H3>Комментарии</H3>
             </Title>
-            <Paragraph size={16} lineHeight={24}>
-              Давайте заполним для знакомства :)
-            </Paragraph>
-          </Row>
-
-          <Row>
-            <Paragraph size={16} lineHeight={24}>
-              Проектная область - финансы
-            </Paragraph>
-          </Row>
-
-          <Row>
-            <Paragraph size={16} lineHeight={24}>
-              Проектная область - финансы
-            </Paragraph>
-          </Row>
-
-          <Row>
-            <Paragraph size={16} lineHeight={24}>
-              Ожидаемый бюджет
-            </Paragraph>
-          </Row>
-
-          <Row>
-            <Title>
-              <H3>Комментарий</H3>
-            </Title>
-            <Paragraph size={16} lineHeight={24}>
-              Давайте заполним для знакомства :)
-            </Paragraph>
           </Row>
           <Row>
             <Comments>
-              <Comment>
-                <Author>Natalia</Author>
-                <Text>lalalalal</Text>
-              </Comment>
+              {post.comments.map((item: any, key: number) => (
+                <Item key={key}>
+                  <Flex>
+                    <RightComment>
+                      <User>{item.first_name}:</User>
+                      <Text>{item.content}</Text>
+                    </RightComment>
+                    <Date>{moment(item.date).format('DD.MM.YYYY')}</Date>
+                  </Flex>
+                </Item>
+              ))}
             </Comments>
             <AddComment>
-              <Input />
+              <Input
+                placeholder="Комментарий"
+                dimension={'small'}
+                value={comment}
+                onChange={(e, val) => setComment(val)}
+              />
+              <Button
+                dimension={'small'}
+                onClick={() => {
+                  dispatch(addCommentAction(post.id, comment))
+                  setComment('')
+                }}
+                disabled={comment.length <= 0}
+              >
+                Отправить
+              </Button>
             </AddComment>
           </Row>
         </Form>
@@ -109,34 +131,77 @@ export const Post: React.FC = (): JSX.Element => {
   )
 }
 
-const AddComment = styled.div``
+const Tags = styled.div`
+  display: flex;
+  align-items: center;
+`
 
-const Author = styled.div``
+const Tag = styled.div`
+  border-radius: 9.1px;
+  background-color: #e9f1f9;
+  font-size: 0.6em;
+  letter-spacing: 0.07px;
+  color: rgba(0, 12, 26, 0.8);
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+`
 
-const Comment = styled.div``
+const RightComment = styled.div`
+  display: flex;
+`
+
+const Date = styled.div`
+  font-size: 0.8em;
+`
+
+const Text = styled.div`
+  margin-left: 0.5em;
+`
+
+const Flex = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`
+
+const Item = styled.div`
+  color: #000;
+  height: 30px;
+  width: 100%;
+  margin-bottom: 10px;
+  font-family: 'Proxima Nova', sans-serif;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #262c40;
+  justify-content: space-between;
+`
+
+const AddComment = styled.div`
+  display: flex;
+`
+
+const User = styled.div`
+  font-size: 0.7em;
+  font-weight: normal;
+`
 
 const Comments = styled.div``
 
-const Text = styled.div``
-
 const Form = styled.div`
   margin: 10px;
-  max-width: 600px;
+  width: 500px;
 `
 
 const Row = styled.div`
   margin: 10px 0 10px 0;
-  max-width: 600px;
-  border-bottom: 1px solid #545454;
+  width: 500px;
 `
 
 const Title = styled.div`
   margin: 10px 0 20px 0;
-  max-width: 600px;
-  font-family: Proxima Nova, sans-serif;
-`
-
-const TitleHead = styled.div`
+  width: 500px;
   font-family: Proxima Nova, sans-serif;
 `
 
@@ -155,7 +220,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 600px;
+  width: 500px;
   margin: 0 auto;
 `
 

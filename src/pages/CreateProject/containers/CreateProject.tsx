@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Input, Button, H3, RadioButton, InputSuggest } from '@holism/core'
 import styled from 'styled-components'
 import { getSuggestions, IPropsItem, optionsData } from '../../SignUp/utils'
@@ -7,7 +7,7 @@ import { useCreateProjectFacade } from '../hooks'
 
 export const CreateProject: React.FC = (): JSX.Element => {
   const { stateCreateProject, disabled, addProject } = useCreateProjectFacade()
-
+  const [idea, setIdea] = useState(false)
   return (
     <>
       <HeaderBg>
@@ -21,9 +21,18 @@ export const CreateProject: React.FC = (): JSX.Element => {
       </HeaderBg>
       <Content>
         <Form>
-          <Row>
+          <Row style={{ display: 'flex' }}>
             <RadioButton
-              label="Инициатива / Идея"
+              label={'Идея'}
+              checked={idea}
+              onChange={() => {
+                setIdea(!idea)
+              }}
+              value="test"
+            />
+
+            <RadioButton
+              label={'Инициатива'}
               checked={stateCreateProject['switch'].value}
               onChange={() => {
                 stateCreateProject['switch'].set(!stateCreateProject['switch'].value)

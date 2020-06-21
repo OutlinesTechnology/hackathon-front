@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, H1, H3, Input, Paragraph } from '@holism/core'
+import { Button, H1, H3, Input, Paragraph, ButtonGroup } from '@holism/core'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 import { getPostByIdAction, postSubscriptionAction, addCommentAction } from '../duck'
@@ -8,6 +8,11 @@ import { getPost } from '../selectors'
 import { Link as LinkDom } from 'react-router-dom'
 import { postActionsTypes } from '../interfaces/action.user.interfaces'
 import moment from 'moment'
+
+const buttonGroup = [
+  { id: 'firstItem', label: 'Не перспективно' },
+  { id: 'thirdItem', label: 'Перспективно' },
+]
 
 export const Post: React.FC = (): JSX.Element => {
   const params = useParams<any>()
@@ -42,9 +47,6 @@ export const Post: React.FC = (): JSX.Element => {
           >
             {post.participant ? 'Я в проекте' : 'Участвовать'}
           </Button>
-          {/*<TitleHead>*/}
-          {/*  <H3>Просмотр проекта</H3>*/}
-          {/*</TitleHead>*/}
         </Header>
       </HeaderBg>
       <Content>
@@ -89,9 +91,26 @@ export const Post: React.FC = (): JSX.Element => {
 
           <Row>
             <Title>
+              <H3>Оценить проект</H3>
+            </Title>
+            <Paragraph size={16} lineHeight={24}>
+              Перспективность
+            </Paragraph>
+            <ButtonGroup
+              items={buttonGroup}
+              dimension="micro"
+              onChange={({ id, label }) => {
+                console.log('selected item: ', { id, label })
+              }}
+            />
+          </Row>
+
+          <Row>
+            <Title>
               <H3>Комментарии</H3>
             </Title>
           </Row>
+
           <Row>
             <Comments>
               {post.comments.map((item: any, key: number) => (
